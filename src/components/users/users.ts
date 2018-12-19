@@ -43,19 +43,18 @@ interface IPermissions {
   };
 }
 
+interface IUserRoles {
+    readonly spaces: ReadonlyArray<ISpace>;
+    readonly orgRoles: ReadonlyArray<OrganizationUserRoles>;
+    readonly username: string;
+}
+
 interface IUserRolesByGuid {
-  // tslint:disable-next-line:readonly-keyword
-  [guid: string]: {
-    // tslint:disable-next-line:readonly-array
-    readonly spaces: ISpace[],
-    readonly orgRoles: ReadonlyArray<OrganizationUserRoles>,
-    readonly username: string,
-  };
+  readonly [guid: string]: IUserRoles;
 }
 
 interface IUserByGuid {
-  // tslint:disable-next-line:readonly-keyword
-  [guid: string]: IOrganizationUserRoles;
+  readonly [guid: string]: IOrganizationUserRoles;
 }
 
 class ValidationError extends Error {
@@ -195,22 +194,24 @@ export async function listUsers(ctx: IContext, params: IParameters): Promise<IRe
     return {space, users: await cf.usersForSpace(space.metadata.guid)};
   }));
 
-  const userRolesByGuid: IUserRolesByGuid = {};
-
-  for (const spaceUsers of spaceUserLists) {
+  const userRolesByGuid = spaceUserLists.reduce<IUserRolesByGuid>((userRolesByGuidAcc1, spaceUsers) => {
     const space = spaceUsers.space;
-    for (const spaceUser of spaceUsers.users) {
-      if (spaceUser.metadata.guid in userRolesByGuid) {
-        userRolesByGuid[spaceUser.metadata.guid].spaces.push(space);
-      } else {
-        userRolesByGuid[spaceUser.metadata.guid] = {
-          spaces: [space],
-          orgRoles: usersOrgRolesByGuid[spaceUser.metadata.guid].entity.organization_roles,
-          username: spaceUser.entity.username,
+    return {
+      ...userRolesByGuidAcc1,
+      ...spaceUsers.users.reduce<IUserRolesByGuid>((userRolesByGuidAcc2, spaceUser) => {
+        const username = spaceUser.entity.username;
+        const userGuid = spaceUser.metadata.guid;
+        const orgRoles = usersOrgRolesByGuid[userGuid].entity.organization_roles;
+        const userRoles = userRolesByGuidAcc2[userGuid];
+        return {
+          ...userRolesByGuidAcc2,
+          [userGuid]: userRoles
+            ? { ...userRoles,       spaces: [...userRoles.spaces, space] }
+            : { orgRoles, username, spaces: [space] },
         };
-      }
-    }
-  }
+      }, {}),
+    };
+  }, {});
 
   return {
     body: usersTemplate.render({
