@@ -658,4 +658,23 @@ describe('_getUserRolesByGuid', () => {
     const result = users._getUserRolesByGuid(userOrgRoles, spaceUserLists);
     expect(result).toEqual({});
   });
+
+  it('should return org roles of a user that has no space access', () => {
+    const userOrgRoles: any = [
+      {
+        metadata: {guid: 'some-user-guid'},
+        entity: {organization_roles: ['org_manager']},
+      },
+    ];
+    const spaceUserLists: any = [];
+
+    const result = users._getUserRolesByGuid(userOrgRoles, spaceUserLists);
+    expect(result).toEqual({
+      'some-user-guid': {
+        orgRoles: ['org_manager'],
+        username: 'TODO',
+        spaces: [],
+      },
+    });
+  });
 });
