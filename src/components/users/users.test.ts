@@ -650,3 +650,12 @@ describe('permissions calling cc api', async () => {
     expect(response.body).toContain('Updated a team member');
   });
 });
+
+describe('_getUserRolesByGuid', () => {
+  it('should return an empty map if there are no users', () => {
+    const userOrgRoles: any = [];
+    const spaceUserLists: any = [];
+    const result = users._getUserRolesByGuid(userOrgRoles, spaceUserLists);
+    expect(result).toEqual({});
+  });
+});
