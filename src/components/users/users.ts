@@ -7,6 +7,7 @@ import {
   ISpace,
   ISpaceUserRoles,
   OrganizationUserRoleEndpoints,
+  OrganizationUserRoles,
 } from '../../lib/cf/types';
 import NotificationClient from '../../lib/notify';
 import { IParameters, IResponse } from '../../lib/router';
@@ -40,6 +41,21 @@ interface IPermissions {
       readonly desired?: string;
     };
   };
+}
+
+interface IUserRolesByGuid {
+  // tslint:disable-next-line:readonly-keyword
+  [guid: string]: {
+    // tslint:disable-next-line:readonly-array
+    readonly spaces: ISpace[],
+    readonly orgRoles: ReadonlyArray<OrganizationUserRoles>,
+    readonly username: string,
+  };
+}
+
+interface IUserByGuid {
+  // tslint:disable-next-line:readonly-keyword
+  [guid: string]: IOrganizationUserRoles;
 }
 
 class ValidationError extends Error {
@@ -163,32 +179,33 @@ export async function listUsers(ctx: IContext, params: IParameters): Promise<IRe
     CLOUD_CONTROLLER_GLOBAL_AUDITOR,
   );
 
-  const [isManager, isBillingManager, organization, users] = await Promise.all([
+  const [isManager, isBillingManager, organization, userOrgRoles] = await Promise.all([
     cf.hasOrganizationRole(params.organizationGUID, ctx.token.userID, 'org_manager'),
     cf.hasOrganizationRole(params.organizationGUID, ctx.token.userID, 'billing_manager'),
     cf.organization(params.organizationGUID),
     cf.usersForOrganization(params.organizationGUID),
   ]);
 
-  const mySpaces = await cf.spaces(params.organizationGUID);
+  const spacesVisibleToUser = await cf.spaces(params.organizationGUID);
 
-  const userGuidToUser = users.reduce((acc, user) => ({...acc, [user.metadata.guid]: user}), {} as any);
+  const usersOrgRolesByGuid: IUserByGuid =
+    userOrgRoles.reduce((acc, user) => ({...acc, [user.metadata.guid]: user}), {});
 
-  const spaceUserLists = await Promise.all(mySpaces.map(async space => {
+  const spaceUserLists = await Promise.all(spacesVisibleToUser.map(async space => {
     return {space, users: await cf.usersForSpace(space.metadata.guid)};
   }));
 
-  const userObject: any = {};
+  const userRolesByGuid: IUserRolesByGuid = {};
 
   for (const spaceUsers of spaceUserLists) {
     const space = spaceUsers.space;
     for (const spaceUser of spaceUsers.users) {
-      if (spaceUser.metadata.guid in userObject) {
-        userObject[spaceUser.metadata.guid].spaces.push(space);
+      if (spaceUser.metadata.guid in userRolesByGuid) {
+        userRolesByGuid[spaceUser.metadata.guid].spaces.push(space);
       } else {
-        userObject[spaceUser.metadata.guid] = {
+        userRolesByGuid[spaceUser.metadata.guid] = {
           spaces: [space],
-          orgRoles: userGuidToUser[spaceUser.metadata.guid].entity.organization_roles,
+          orgRoles: usersOrgRolesByGuid[spaceUser.metadata.guid].entity.organization_roles,
           username: spaceUser.entity.username,
         };
       }
@@ -203,7 +220,7 @@ export async function listUsers(ctx: IContext, params: IParameters): Promise<IRe
       isManager,
       isBillingManager,
       linkTo: ctx.linkTo,
-      users: userObject,
+      users: userRolesByGuid,
       organization,
       location: ctx.app.location,
     }),
