@@ -34,6 +34,7 @@ export interface IAppConfig {
   readonly sessionSecret: string;
   readonly uaaAPI: string;
   readonly authorizationAPI: string;
+  readonly analyticsTrackingID: string;
 }
 
 export default function(config: IAppConfig) {

@@ -88,6 +88,7 @@ ACCOUNTS_SECRET="my-accounts-secret" \
 NOTIFY_API_KEY="qwerty123456" \
 NOTIFY_WELCOME_TEMPLATE_ID="qwerty123456" \
 AWS_REGION="eu-west-2" \
+ANALYTICS_TRACKING_ID:="UA-000000-2" \
 npm start
 ```
 
@@ -155,4 +156,3 @@ This project is fairly young and may not be a right fit for different needs yet.
 You may be interested in investigating other tools, such as
 [Stratos](https://github.com/cloudfoundry-incubator/stratos) which may become
 an official tool some day.
-

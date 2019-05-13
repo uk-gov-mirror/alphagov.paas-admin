@@ -13,6 +13,7 @@ const envVars = {
   BILLING_URL: 'https://example.com/billing',
   ACCOUNTS_URL: 'https://example.com/accounts',
   ACCOUNTS_SECRET: '__ACCOUNTS_SECRET__',
+  ANALYTICS_TRACKING_ID: 'UA-000000-2',
 };
 
 export interface IProcess extends ChildProcess {

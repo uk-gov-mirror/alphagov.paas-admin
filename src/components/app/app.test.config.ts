@@ -21,4 +21,5 @@ export const config: IAppConfig = {
   authorizationAPI: 'https://example.com/login',
   notifyAPIKey: 'test-123456-qwerty',
   notifyWelcomeTemplateID: 'qwerty-123456',
+  analyticsTrackingID: 'UA-000000-2',
 };

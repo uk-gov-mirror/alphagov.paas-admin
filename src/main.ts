@@ -109,6 +109,7 @@ async function main() {
     uaaAPI,
     notifyAPIKey: expectEnvVariable('NOTIFY_API_KEY'),
     notifyWelcomeTemplateID: process.env.NOTIFY_WELCOME_TEMPLATE_ID || null,
+    analyticsTrackingID: expectEnvVariable('ANALYTICS_TRACKING_ID'),
   };
 
   const server = new Server(app(config), {
