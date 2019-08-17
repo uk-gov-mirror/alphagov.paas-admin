@@ -22,13 +22,13 @@ nock('https://example.com/api').persist()
   .get('/v2/quota_definitions?q=name:the-system_domain-org-name').reply(200, data.organizations)
   .get('/v2/quota_definitions/80f3e539-a8c0-4c43-9c72-649df53da8cb').reply(200, data.organizationQuota)
   .get(`/v2/organizations/${data.organizationGuid}/spaces`).reply(200, data.spaces)
-  .get('/v2/spaces/be1f9c1d-e629-488e-a560-a35b545f0ad7/apps').reply(200, data.apps)
+  .get(`/v2/spaces/${data.spaceGuid}/apps`).reply(200, data.apps)
   .get('/v2/apps/15b3885d-0351-4b9b-8697-86641668c123').times(1).reply(200, data.app)
   .get('/v2/apps/cd897c8c-3171-456d-b5d7-3c87feeabbd1/summary').times(1).reply(200, data.appSummary)
-  .get('/v2/spaces/bc8d3381-390d-4bd7-8c71-25309900a2e3').reply(200, data.space)
-  .get('/v2/spaces/50ae42f6-346d-4eca-9e97-f8c9e04d5fbe/summary').reply(200, data.spaceSummary)
+  .get(`/v2/spaces/${data.spaceGuid}`).reply(200, data.space)
+  .get(`/v2/spaces/${data.spaceGuid}/summary`).reply(200, data.spaceSummary)
   .get('/v2/space_quota_definitions/a9097bc8-c6cf-4a8f-bc47-623fa22e8019').reply(200, data.spaceQuota)
-  .get('/v2/spaces/f858c6b3-f6b1-4ae8-81dd-8e8747657fbe/service_instances').reply(200, data.services)
+  .get(`/v2/spaces/${data.spaceGuid}/service_instances`).reply(200, data.services)
   .get('/v2/service_instances/0d632575-bb06-4ea5-bb19-a451a9644d92').times(1).reply(200, data.serviceInstance)
   .get('/v2/service_plans/775d0046-7505-40a4-bfad-ca472485e332').times(1).reply(200, data.servicePlan)
   .get('/v2/services/53f52780-e93c-4af7-a96c-6958311c40e5').times(1).reply(200, data.service)
@@ -43,8 +43,8 @@ nock('https://example.com/api').persist()
   .post('/v2/users').reply(200, data.user)
   .put(`/v2/organizations/${data.organizationGuid}/users/uaa-id-236?recursive=true`).reply(201, data.userRoles)
   .delete(`/v2/organizations/${data.organizationGuid}/users/uaa-id-236?recursive=true`).reply(204, {})
-  .put('/v2/spaces/594c1fa9-caed-454b-9ed8-643a093ff91d/developer/uaa-id-381').reply(201, data.userRoles)
-  .delete('/v2/spaces/594c1fa9-caed-454b-9ed8-643a093ff91d/developer/uaa-id-381').reply(204, {})
+  .put(`/v2/spaces/${data.spaceGuid}/developer/uaa-id-381`).reply(201, data.userRoles)
+  .delete(`/v2/spaces/${data.spaceGuid}/developer/uaa-id-381`).reply(204, {})
   .get('/v2/stacks').reply(200, data.stacks)
   .get('/v2/stacks/bb9ca94f-b456-4ebd-ab09-eb7987cce728').reply(200, data.stack)
   .get('/v2/failure/404').reply(404, `{"error": "FAKE_404"}`)
@@ -173,14 +173,14 @@ describe('lib/cf test suite', () => {
 
   test('should obtain single space', async () => {
     const client = new CloudFoundryClient(config);
-    const space = await client.space('bc8d3381-390d-4bd7-8c71-25309900a2e3');
+    const space = await client.space(data.spaceGuid);
 
     expect(space.entity.name).toEqual('name-2064');
   });
 
   test('should obtain single space', async () => {
     const client = new CloudFoundryClient(config);
-    const space = await client.spaceSummary('50ae42f6-346d-4eca-9e97-f8c9e04d5fbe');
+    const space = await client.spaceSummary(data.spaceGuid);
 
     expect(space.name).toEqual('name-1382');
   });
@@ -202,7 +202,7 @@ describe('lib/cf test suite', () => {
 
   test('should obtain list of apps', async () => {
     const client = new CloudFoundryClient(config);
-    const apps = await client.applications('be1f9c1d-e629-488e-a560-a35b545f0ad7');
+    const apps = await client.applications(data.spaceGuid);
 
     expect(apps.length > 0).toBeTruthy();
     expect(apps[0].entity.name).toEqual('name-2131');
@@ -231,7 +231,7 @@ describe('lib/cf test suite', () => {
 
   test('should obtain list of services', async () => {
     const client = new CloudFoundryClient(config);
-    const services = await client.services('f858c6b3-f6b1-4ae8-81dd-8e8747657fbe');
+    const services = await client.services(data.spaceGuid);
 
     expect(services.length > 0).toBeTruthy();
     expect(services[0].entity.name).toEqual('name-2104');
@@ -324,14 +324,14 @@ describe('lib/cf test suite', () => {
 
   test('should be able to set user space roles', async () => {
     const client = new CloudFoundryClient(config);
-    const users = await client.setSpaceRole('594c1fa9-caed-454b-9ed8-643a093ff91d', 'uaa-id-381', 'developer', true);
+    const users = await client.setSpaceRole(data.spaceGuid, 'uaa-id-381', 'developer', true);
 
     expect(users.entity.name).toEqual('name-1753');
   });
 
   test('should be able to remove user space roles', async () => {
     const client = new CloudFoundryClient(config);
-    const users = await client.setSpaceRole('594c1fa9-caed-454b-9ed8-643a093ff91d', 'uaa-id-381', 'developer', false);
+    const users = await client.setSpaceRole(data.spaceGuid, 'uaa-id-381', 'developer', false);
 
     expect(Object.keys(users).length).toEqual(0);
   });
