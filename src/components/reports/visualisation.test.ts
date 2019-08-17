@@ -53,7 +53,7 @@ describe('html visualisation report test suite', () => {
         "resource_guid":"default-resource-guid",
         "resource_name":"default-resource-name",
         "resource_type":"app",
-        "org_guid":"a7aff246-5f5b-4cf8-87d8-f316053e4a20",
+        "org_guid":"${data.organizationGuid}",
         "space_guid":"default-space-guid",
         "plan_guid":"default-plan-guid",
         "quota_definition_guid":"default-quota-definition-guid",

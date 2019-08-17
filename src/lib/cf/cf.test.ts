@@ -16,12 +16,12 @@ nock('https://example.com/api').persist()
   .get('/v2/info').reply(200, data.info)
   .post('/v2/organizations').reply(201, data.organization)
   .get('/v2/organizations').reply(200, data.organizations)
-  .get('/v2/organizations/a7aff246-5f5b-4cf8-87d8-f316053e4a20').reply(200, data.organization)
-  .delete('/v2/organizations/a7aff246-5f5b-4cf8-87d8-f316053e4a20?recursive=true&async=false').reply(204)
+  .get(`/v2/organizations/${data.organizationGuid}`).reply(200, data.organization)
+  .delete(`/v2/organizations/${data.organizationGuid}?recursive=true&async=false`).reply(204)
   .get('/v2/quota_definitions').reply(200, data.organizations)
   .get('/v2/quota_definitions?q=name:the-system_domain-org-name').reply(200, data.organizations)
   .get('/v2/quota_definitions/80f3e539-a8c0-4c43-9c72-649df53da8cb').reply(200, data.organizationQuota)
-  .get('/v2/organizations/3deb9f04-b449-4f94-b3dd-c73cefe5b275/spaces').reply(200, data.spaces)
+  .get(`/v2/organizations/${data.organizationGuid}/spaces`).reply(200, data.spaces)
   .get('/v2/spaces/be1f9c1d-e629-488e-a560-a35b545f0ad7/apps').reply(200, data.apps)
   .get('/v2/apps/15b3885d-0351-4b9b-8697-86641668c123').times(1).reply(200, data.app)
   .get('/v2/apps/cd897c8c-3171-456d-b5d7-3c87feeabbd1/summary').times(1).reply(200, data.appSummary)
@@ -36,13 +36,13 @@ nock('https://example.com/api').persist()
   .get('/v2/user_provided_service_instances/e9358711-0ad9-4f2a-b3dc-289d47c17c87').times(1).reply(200, data.userServiceInstance)
   .post('/v2/users').reply(201, data.user)
   .delete('/v2/users/guid-cb24b36d-4656-468e-a50d-b53113ac6177?async=false').reply(204)
-  .get('/v2/users/uaa-id-253/spaces?q=organization_guid:3deb9f04-b449-4f94-b3dd-c73cefe5b275').reply(200, data.spaces)
+  .get(`/v2/users/uaa-id-253/spaces?q=organization_guid:${data.organizationGuid}`).reply(200, data.spaces)
   .get('/v2/users/uaa-id-253/summary').reply(200, data.userSummary)
-  .get('/v2/organizations/3deb9f04-b449-4f94-b3dd-c73cefe5b275/user_roles').reply(200, data.userRolesForOrg)
-  .get('/v2/spaces/3deb9f04-b449-4f94-b3dd-c73cefe5b275/user_roles').reply(200, data.userRolesForSpace)
+  .get(`/v2/organizations/${data.organizationGuid}/user_roles`).reply(200, data.userRolesForOrg)
+  .get(`/v2/spaces/${data.organizationGuid}/user_roles`).reply(200, data.userRolesForSpace)
   .post('/v2/users').reply(200, data.user)
-  .put('/v2/organizations/beb082da-25e1-4329-88c9-bea2d809729d/users/uaa-id-236?recursive=true').reply(201, data.userRoles)
-  .delete('/v2/organizations/beb082da-25e1-4329-88c9-bea2d809729d/users/uaa-id-236?recursive=true').reply(204, {})
+  .put(`/v2/organizations/${data.organizationGuid}/users/uaa-id-236?recursive=true`).reply(201, data.userRoles)
+  .delete(`/v2/organizations/${data.organizationGuid}/users/uaa-id-236?recursive=true`).reply(204, {})
   .put('/v2/spaces/594c1fa9-caed-454b-9ed8-643a093ff91d/developer/uaa-id-381').reply(201, data.userRoles)
   .delete('/v2/spaces/594c1fa9-caed-454b-9ed8-643a093ff91d/developer/uaa-id-381').reply(204, {})
   .get('/v2/stacks').reply(200, data.stacks)
@@ -126,7 +126,7 @@ describe('lib/cf test suite', () => {
 
   test('should obtain single organisation', async () => {
     const client = new CloudFoundryClient(config);
-    const organization = await client.organization('a7aff246-5f5b-4cf8-87d8-f316053e4a20');
+    const organization = await client.organization(data.organizationGuid);
 
     expect(organization.entity.name).toEqual('the-system_domain-org-name');
   });
@@ -134,7 +134,7 @@ describe('lib/cf test suite', () => {
   test('should delete an organisation', async () => {
     const client = new CloudFoundryClient(config);
     await client.deleteOrganization({
-      guid: 'a7aff246-5f5b-4cf8-87d8-f316053e4a20',
+      guid: data.organizationGuid,
       recursive: true,
       async: false,
     });
@@ -165,7 +165,7 @@ describe('lib/cf test suite', () => {
 
   test('should obtain list of spaces', async () => {
     const client = new CloudFoundryClient(config);
-    const spaces = await client.spaces('3deb9f04-b449-4f94-b3dd-c73cefe5b275');
+    const spaces = await client.spaces(data.organizationGuid);
 
     expect(spaces.length > 0).toBeTruthy();
     expect(spaces[0].entity.name).toEqual('name-1774');
@@ -194,7 +194,7 @@ describe('lib/cf test suite', () => {
 
   test('should obtain list of spaces for specific user in given org', async () => {
     const client = new CloudFoundryClient(config);
-    const spaces = await client.spacesForUserInOrganization('uaa-id-253', '3deb9f04-b449-4f94-b3dd-c73cefe5b275');
+    const spaces = await client.spacesForUserInOrganization('uaa-id-253', data.organizationGuid);
 
     expect(spaces.length > 0).toBeTruthy();
     expect(spaces[0].entity.name).toEqual('name-1774');
@@ -281,7 +281,7 @@ describe('lib/cf test suite', () => {
 
   test('should obtain list of user roles for organisation', async () => {
     const client = new CloudFoundryClient(config);
-    const users = await client.usersForOrganization('3deb9f04-b449-4f94-b3dd-c73cefe5b275');
+    const users = await client.usersForOrganization(data.organizationGuid);
 
     expect(users.length > 0).toBeTruthy();
     expect(users[0].entity.username).toEqual('user@uaa.example.com');
@@ -290,7 +290,7 @@ describe('lib/cf test suite', () => {
 
   test('should obtain list of user roles for space', async () => {
     const client = new CloudFoundryClient(config);
-    const users = await client.usersForSpace('3deb9f04-b449-4f94-b3dd-c73cefe5b275');
+    const users = await client.usersForSpace(data.organizationGuid);
 
     expect(users.length > 0).toBeTruthy();
     expect(users[0].entity.username).toEqual('everything@example.com');
@@ -309,7 +309,7 @@ describe('lib/cf test suite', () => {
 
   test('should be able to set user org roles', async () => {
     const client = new CloudFoundryClient(config);
-    const users = await client.setOrganizationRole('beb082da-25e1-4329-88c9-bea2d809729d', `uaa-id-236`, 'users', true);
+    const users = await client.setOrganizationRole(data.organizationGuid, `uaa-id-236`, 'users', true);
 
     expect(users.entity.name).toEqual('name-1753');
   });
@@ -317,7 +317,7 @@ describe('lib/cf test suite', () => {
   test('should be able to remove user org roles', async () => {
     const client = new CloudFoundryClient(config);
     const roles = await client
-      .setOrganizationRole('beb082da-25e1-4329-88c9-bea2d809729d', `uaa-id-236`, 'users', false);
+      .setOrganizationRole(data.organizationGuid, `uaa-id-236`, 'users', false);
 
     expect(Object.keys(roles).length).toEqual(0);
   });
@@ -339,7 +339,7 @@ describe('lib/cf test suite', () => {
   test('should obtain list of user roles for organisation and not find logged in user', async () => {
     const client = new CloudFoundryClient(config);
     const hasRole = await client.hasOrganizationRole(
-      '3deb9f04-b449-4f94-b3dd-c73cefe5b275',
+      data.organizationGuid,
       'not-existing-user',
       'org_manager',
     );

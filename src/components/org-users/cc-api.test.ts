@@ -37,30 +37,30 @@ describe('permissions calling cc api', () => {
 
   it('should make a single request due to permission update', async () => {
     nockCF
-      .get('/v2/organizations/3deb9f04-b449-4f94-b3dd-c73cefe5b275/user_roles')
+      .get(`/v2/organizations/${cfData.organizationGuid}/user_roles`)
       .times(3)
       .reply(200, cfData.userRolesForOrg)
 
-      .get('/v2/organizations/3deb9f04-b449-4f94-b3dd-c73cefe5b275')
+      .get(`/v2/organizations/${cfData.organizationGuid}`)
       .reply(200, cfData.organization)
 
-      .get('/v2/organizations/3deb9f04-b449-4f94-b3dd-c73cefe5b275/spaces')
+      .get(`/v2/organizations/${cfData.organizationGuid}/spaces`)
       .times(2)
       .reply(200, cfData.spaces)
 
       .put('/v2/spaces/5489e195-c42b-4e61-bf30-323c331ecc01/developers/uaa-user-edit-123456')
       .reply(200, `{}`)
 
-      .put('/v2/organizations/3deb9f04-b449-4f94-b3dd-c73cefe5b275/managers/uaa-user-edit-123456?recursive=true')
+      .put(`/v2/organizations/${cfData.organizationGuid}/managers/uaa-user-edit-123456?recursive=true`)
       .reply(200, `{}`)
     ;
 
     const response = await orgUsers.updateUser(ctx, {
-      organizationGUID: '3deb9f04-b449-4f94-b3dd-c73cefe5b275',
+      organizationGUID: cfData.organizationGuid,
       userGUID: 'uaa-user-edit-123456',
     }, {
       org_roles: {
-        '3deb9f04-b449-4f94-b3dd-c73cefe5b275': composeOrgRoles({
+        [cfData.organizationGuid]: composeOrgRoles({
           managers: {
             current: '0',
             desired: '1',
@@ -83,24 +83,24 @@ describe('permissions calling cc api', () => {
 
   it('should make no requests when permission has been previously and still is set', async () => {
     nockCF
-      .get('/v2/organizations/3deb9f04-b449-4f94-b3dd-c73cefe5b275/user_roles')
+      .get(`/v2/organizations/${cfData.organizationGuid}/user_roles`)
       .times(3)
       .reply(200, cfData.userRolesForOrg)
 
-      .get('/v2/organizations/3deb9f04-b449-4f94-b3dd-c73cefe5b275')
+      .get(`/v2/organizations/${cfData.organizationGuid}`)
       .reply(200, cfData.organization)
 
-      .get('/v2/organizations/3deb9f04-b449-4f94-b3dd-c73cefe5b275/spaces')
+      .get(`/v2/organizations/${cfData.organizationGuid}/spaces`)
       .times(2)
       .reply(200, cfData.spaces)
     ;
 
     const response = await orgUsers.updateUser(ctx, {
-      organizationGUID: '3deb9f04-b449-4f94-b3dd-c73cefe5b275',
+      organizationGUID: cfData.organizationGuid,
       userGUID: 'uaa-user-edit-123456',
     }, {
       org_roles: {
-        '3deb9f04-b449-4f94-b3dd-c73cefe5b275': composeOrgRoles({
+        [cfData.organizationGuid]: composeOrgRoles({
           managers: {
             current: '1',
             desired: '1',
@@ -123,25 +123,25 @@ describe('permissions calling cc api', () => {
 
   it('should make no requests when permission has been previously and still is unset', async () => {
     nockCF
-      .get('/v2/organizations/3deb9f04-b449-4f94-b3dd-c73cefe5b275/user_roles')
+      .get(`/v2/organizations/${cfData.organizationGuid}/user_roles`)
       .times(3)
       .reply(200, cfData.userRolesForOrg)
 
-      .get('/v2/organizations/3deb9f04-b449-4f94-b3dd-c73cefe5b275')
+      .get(`/v2/organizations/${cfData.organizationGuid}`)
       .times(1)
       .reply(200, cfData.organization)
 
-      .get('/v2/organizations/3deb9f04-b449-4f94-b3dd-c73cefe5b275/spaces')
+      .get(`/v2/organizations/${cfData.organizationGuid}/spaces`)
       .times(2)
       .reply(200, cfData.spaces)
     ;
 
     const response = await orgUsers.updateUser(ctx, {
-      organizationGUID: '3deb9f04-b449-4f94-b3dd-c73cefe5b275',
+      organizationGUID: cfData.organizationGuid,
       userGUID: 'uaa-user-edit-123456',
     }, {
       org_roles: {
-        '3deb9f04-b449-4f94-b3dd-c73cefe5b275': composeOrgRoles({
+        [cfData.organizationGuid]: composeOrgRoles({
           billing_managers: {
             current: '0',
           },

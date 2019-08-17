@@ -17,6 +17,7 @@ export const info = `{
   "logging_endpoint": "ws://loggregator.vcap.me:80"
 }`;
 
+export const organizationGuid = "a7aff246-5f5b-4cf8-87d8-f316053e4a20"
 export const organizations = `{
   "total_results": 1,
   "total_pages": 1,
@@ -25,8 +26,8 @@ export const organizations = `{
   "resources": [
     {
       "metadata": {
-        "guid": "a7aff246-5f5b-4cf8-87d8-f316053e4a20",
-        "url": "/v2/organizations/a7aff246-5f5b-4cf8-87d8-f316053e4a20",
+        "guid": "${organizationGuid}",
+        "url": "/v2/organizations/${organizationGuid}",
         "created_at": "2016-06-08T16:41:33Z",
         "updated_at": "2016-06-08T16:41:26Z"
       },
@@ -36,15 +37,15 @@ export const organizations = `{
         "quota_definition_guid": "dcb680a9-b190-4838-a3d2-b84aa17517a6",
         "status": "active",
         "quota_definition_url": "/v2/quota_definitions/dcb680a9-b190-4838-a3d2-b84aa17517a6",
-        "spaces_url": "/v2/organizations/a7aff246-5f5b-4cf8-87d8-f316053e4a20/spaces",
-        "domains_url": "/v2/organizations/a7aff246-5f5b-4cf8-87d8-f316053e4a20/domains",
-        "private_domains_url": "/v2/organizations/a7aff246-5f5b-4cf8-87d8-f316053e4a20/private_domains",
-        "users_url": "/v2/organizations/a7aff246-5f5b-4cf8-87d8-f316053e4a20/users",
-        "managers_url": "/v2/organizations/a7aff246-5f5b-4cf8-87d8-f316053e4a20/managers",
-        "billing_managers_url": "/v2/organizations/a7aff246-5f5b-4cf8-87d8-f316053e4a20/billing_managers",
-        "auditors_url": "/v2/organizations/a7aff246-5f5b-4cf8-87d8-f316053e4a20/auditors",
-        "app_events_url": "/v2/organizations/a7aff246-5f5b-4cf8-87d8-f316053e4a20/app_events",
-        "space_quota_definitions_url": "/v2/organizations/a7aff246-5f5b-4cf8-87d8-f316053e4a20/space_quota_definitions"
+        "spaces_url": "/v2/organizations/${organizationGuid}/spaces",
+        "domains_url": "/v2/organizations/${organizationGuid}/domains",
+        "private_domains_url": "/v2/organizations/${organizationGuid}/private_domains",
+        "users_url": "/v2/organizations/${organizationGuid}/users",
+        "managers_url": "/v2/organizations/${organizationGuid}/managers",
+        "billing_managers_url": "/v2/organizations/${organizationGuid}/billing_managers",
+        "auditors_url": "/v2/organizations/${organizationGuid}/auditors",
+        "app_events_url": "/v2/organizations/${organizationGuid}/app_events",
+        "space_quota_definitions_url": "/v2/organizations/${organizationGuid}/space_quota_definitions"
       }
     }
   ]
@@ -52,8 +53,8 @@ export const organizations = `{
 
 export const organization = `{
   "metadata": {
-    "guid": "a7aff246-5f5b-4cf8-87d8-f316053e4a20",
-    "url": "/v2/organizations/a7aff246-5f5b-4cf8-87d8-f316053e4a20",
+    "guid": "${organizationGuid}",
+    "url": "/v2/organizations/${organizationGuid}",
     "created_at": "2016-06-08T16:41:33Z",
     "updated_at": "2016-06-08T16:41:26Z"
   },
@@ -63,15 +64,15 @@ export const organization = `{
     "quota_definition_guid": "dcb680a9-b190-4838-a3d2-b84aa17517a6",
     "status": "active",
     "quota_definition_url": "/v2/quota_definitions/dcb680a9-b190-4838-a3d2-b84aa17517a6",
-    "spaces_url": "/v2/organizations/a7aff246-5f5b-4cf8-87d8-f316053e4a20/spaces",
-    "domains_url": "/v2/organizations/a7aff246-5f5b-4cf8-87d8-f316053e4a20/domains",
-    "private_domains_url": "/v2/organizations/a7aff246-5f5b-4cf8-87d8-f316053e4a20/private_domains",
-    "users_url": "/v2/organizations/a7aff246-5f5b-4cf8-87d8-f316053e4a20/users",
-    "managers_url": "/v2/organizations/a7aff246-5f5b-4cf8-87d8-f316053e4a20/managers",
-    "billing_managers_url": "/v2/organizations/a7aff246-5f5b-4cf8-87d8-f316053e4a20/billing_managers",
-    "auditors_url": "/v2/organizations/a7aff246-5f5b-4cf8-87d8-f316053e4a20/auditors",
-    "app_events_url": "/v2/organizations/a7aff246-5f5b-4cf8-87d8-f316053e4a20/app_events",
-    "space_quota_definitions_url": "/v2/organizations/a7aff246-5f5b-4cf8-87d8-f316053e4a20/space_quota_definitions"
+    "spaces_url": "/v2/organizations/${organizationGuid}/spaces",
+    "domains_url": "/v2/organizations/${organizationGuid}/domains",
+    "private_domains_url": "/v2/organizations/${organizationGuid}/private_domains",
+    "users_url": "/v2/organizations/${organizationGuid}/users",
+    "managers_url": "/v2/organizations/${organizationGuid}/managers",
+    "billing_managers_url": "/v2/organizations/${organizationGuid}/billing_managers",
+    "auditors_url": "/v2/organizations/${organizationGuid}/auditors",
+    "app_events_url": "/v2/organizations/${organizationGuid}/app_events",
+    "space_quota_definitions_url": "/v2/organizations/${organizationGuid}/space_quota_definitions"
   }
 }`;
 
@@ -121,10 +122,10 @@ export const spaces = `{
       },
       "entity": {
         "name": "name-1774",
-        "organization_guid": "3deb9f04-b449-4f94-b3dd-c73cefe5b275",
+        "organization_guid": "${organizationGuid}",
         "space_quota_definition_guid": "a9097bc8-c6cf-4a8f-bc47-623fa22e8019",
         "allow_ssh": true,
-        "organization_url": "/v2/organizations/3deb9f04-b449-4f94-b3dd-c73cefe5b275",
+        "organization_url": "/v2/organizations/${organizationGuid}",
         "developers_url": "/v2/spaces/5489e195-c42b-4e61-bf30-323c331ecc01/developers",
         "managers_url": "/v2/spaces/5489e195-c42b-4e61-bf30-323c331ecc01/managers",
         "auditors_url": "/v2/spaces/5489e195-c42b-4e61-bf30-323c331ecc01/auditors",
@@ -147,10 +148,10 @@ export const spaces = `{
       },
       "entity": {
         "name": "name-1774",
-        "organization_guid": "3deb9f04-b449-4f94-b3dd-c73cefe5b275",
+        "organization_guid": "${organizationGuid}",
         "space_quota_definition_guid": null,
         "allow_ssh": true,
-        "organization_url": "/v2/organizations/3deb9f04-b449-4f94-b3dd-c73cefe5b275",
+        "organization_url": "/v2/organizations/${organizationGuid}",
         "developers_url": "/v2/spaces/bc8d3381-390d-4bd7-8c71-25309900a2e3/developers",
         "managers_url": "/v2/spaces/bc8d3381-390d-4bd7-8c71-25309900a2e3/managers",
         "auditors_url": "/v2/spaces/bc8d3381-390d-4bd7-8c71-25309900a2e3/auditors",
@@ -1005,8 +1006,8 @@ export const user = `{
 
 export const userRoles = `{
   "metadata": {
-    "guid": "beb082da-25e1-4329-88c9-bea2d809729d",
-    "url": "/v2/organizations/beb082da-25e1-4329-88c9-bea2d809729d",
+    "guid": "${organizationGuid}",
+    "url": "/v2/organizations/${organizationGuid}",
     "created_at": "2016-06-08T16:41:34Z",
     "updated_at": "2016-06-08T16:41:26Z"
   },
@@ -1016,15 +1017,15 @@ export const userRoles = `{
     "quota_definition_guid": "2a6ff67b-6177-43c6-918a-c8d3bbaf0414",
     "status": "active",
     "quota_definition_url": "/v2/quota_definitions/2a6ff67b-6177-43c6-918a-c8d3bbaf0414",
-    "spaces_url": "/v2/organizations/beb082da-25e1-4329-88c9-bea2d809729d/spaces",
-    "domains_url": "/v2/organizations/beb082da-25e1-4329-88c9-bea2d809729d/domains",
-    "private_domains_url": "/v2/organizations/beb082da-25e1-4329-88c9-bea2d809729d/private_domains",
-    "users_url": "/v2/organizations/beb082da-25e1-4329-88c9-bea2d809729d/users",
-    "managers_url": "/v2/organizations/beb082da-25e1-4329-88c9-bea2d809729d/managers",
-    "billing_managers_url": "/v2/organizations/beb082da-25e1-4329-88c9-bea2d809729d/billing_managers",
-    "auditors_url": "/v2/organizations/beb082da-25e1-4329-88c9-bea2d809729d/auditors",
-    "app_events_url": "/v2/organizations/beb082da-25e1-4329-88c9-bea2d809729d/app_events",
-    "space_quota_definitions_url": "/v2/organizations/beb082da-25e1-4329-88c9-bea2d809729d/space_quota_definitions"
+    "spaces_url": "/v2/organizations/${organizationGuid}",
+    "domains_url": "/v2/organizations/${organizationGuid}",
+    "private_domains_url": "/v2/organizations/${organizationGuid}",
+    "users_url": "/v2/organizations/${organizationGuid}",
+    "managers_url": "/v2/organizations/${organizationGuid}",
+    "billing_managers_url": "/v2/organizations/${organizationGuid}",
+    "auditors_url": "/v2/organizations/${organizationGuid}",
+    "app_events_url": "/v2/organizations/${organizationGuid}",
+    "space_quota_definitions_url": "/v2/organizations/${organizationGuid}"
   }
 }`;
 
@@ -1272,7 +1273,7 @@ export const userSummary = `{
   "entity": {
     "organizations": [{
       "metadata": {
-        "guid": "a7aff246-5f5b-4cf8-87d8-f316053e4a20",
+        "guid": "${organizationGuid}",
         "created_at": "2016-06-08T16:41:33Z",
         "updated_at": "2016-06-08T16:41:26Z"
       },
@@ -1282,7 +1283,7 @@ export const userSummary = `{
     }],
     "managed_organizations": [{
       "metadata": {
-        "guid": "a7aff246-5f5b-4cf8-87d8-f316053e4a20",
+        "guid": "${organizationGuid}",
         "created_at": "2016-06-08T16:41:33Z",
         "updated_at": "2016-06-08T16:41:26Z"
       },
@@ -1292,7 +1293,7 @@ export const userSummary = `{
     }],
     "billing_managed_organizations": [{
       "metadata": {
-        "guid": "a7aff246-5f5b-4cf8-87d8-f316053e4a20",
+        "guid": "${organizationGuid}",
         "created_at": "2016-06-08T16:41:33Z",
         "updated_at": "2016-06-08T16:41:26Z"
       },
@@ -1302,7 +1303,7 @@ export const userSummary = `{
     }],
     "audited_organizations": [{
       "metadata": {
-        "guid": "a7aff246-5f5b-4cf8-87d8-f316053e4a20",
+        "guid": "${organizationGuid}",
         "created_at": "2016-06-08T16:41:33Z",
         "updated_at": "2016-06-08T16:41:26Z"
       },

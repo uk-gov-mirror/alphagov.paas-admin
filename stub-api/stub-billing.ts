@@ -1,4 +1,5 @@
 import express from 'express';
+import * as testData from '../src/lib/cf/cf.test.data';
 import {IStubServerPorts} from './index';
 
 const defaultPriceDetails = {
@@ -47,7 +48,7 @@ function mockBilling(app: express.Application, _config: IStubServerPorts): expre
       {
         ...defaultBillingEvent,
         resource_name: 'down',
-        org_guid: 'a7aff246-5f5b-4cf8-87d8-f316053e4a20',
+        org_guid: testData.organizationGuid,
         price: {inc_vat: "334.00", ex_vat: "314.00", details: [{...defaultPriceDetails, plan_name: "fantastical-plan"}]}
       },
       {
@@ -63,19 +64,19 @@ function mockBilling(app: express.Application, _config: IStubServerPorts): expre
       {
         ...defaultBillingEvent,
         resource_name: 'charm',
-        org_guid: 'a7aff246-5f5b-4cf8-87d8-f316053e4a20',
+        org_guid: testData.organizationGuid,
         price: {inc_vat: "132.00", ex_vat: "112.00", details: [{...defaultPriceDetails, plan_name: "witching-plan"}]}
       },
       {
         ...defaultBillingEvent,
         resource_name: 'bottom',
-        org_guid: 'a7aff246-5f5b-4cf8-87d8-f316053e4a20',
+        org_guid: testData.organizationGuid,
         price: {inc_vat: "100.00", ex_vat: "80.00", details: [{...defaultPriceDetails, plan_name: "sorcerous-plan"}]}
       },
       {
         ...defaultBillingEvent,
         resource_name: 'top',
-        org_guid: 'a7aff246-5f5b-4cf8-87d8-f316053e4a20',
+        org_guid: testData.organizationGuid,
         price: {inc_vat: "100.00", ex_vat: "80.00", details: [{...defaultPriceDetails, plan_name: "supernatural-plan"}]}
       },
     ]));
@@ -158,7 +159,7 @@ function mockBilling(app: express.Application, _config: IStubServerPorts): expre
       resource_guid: "c85e98f0-6d1b-4f45-9368-ea58263165a0",
       resource_name: "APP1",
       resource_type: "_TESTING_APPLICATION_",
-      org_guid: "51ba75ef-edc0-47ad-a633-a8f6e8770944",
+      org_guid: testData.organizationGuid,
       space_guid: "276f4886-ac40-492d-a8cd-b2646637ba76",
       plan_guid: "f4d4b95a-f55e-4593-8d54-3364c25798c4",
       number_of_nodes: 1,
