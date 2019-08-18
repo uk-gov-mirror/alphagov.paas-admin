@@ -23,8 +23,8 @@ nock('https://example.com/api').persist()
   .get('/v2/quota_definitions/80f3e539-a8c0-4c43-9c72-649df53da8cb').reply(200, data.organizationQuota)
   .get(`/v2/organizations/${data.organizationGuid}/spaces`).reply(200, data.spaces)
   .get(`/v2/spaces/${data.spaceGuid}/apps`).reply(200, data.apps)
-  .get('/v2/apps/15b3885d-0351-4b9b-8697-86641668c123').times(1).reply(200, data.app)
-  .get('/v2/apps/cd897c8c-3171-456d-b5d7-3c87feeabbd1/summary').times(1).reply(200, data.appSummary)
+  .get(`/v2/apps/${data.appGuid}`).times(1).reply(200, data.app)
+  .get(`/v2/apps/${data.appGuid}/summary`).times(1).reply(200, data.appSummary)
   .get(`/v2/spaces/${data.spaceGuid}`).reply(200, data.space)
   .get(`/v2/spaces/${data.spaceGuid}/summary`).reply(200, data.spaceSummary)
   .get('/v2/space_quota_definitions/a9097bc8-c6cf-4a8f-bc47-623fa22e8019').reply(200, data.spaceQuota)
@@ -210,21 +210,14 @@ describe('lib/cf test suite', () => {
 
   test('should obtain particular app', async () => {
     const client = new CloudFoundryClient(config);
-    const app = await client.application('15b3885d-0351-4b9b-8697-86641668c123');
+    const app = await client.application(data.appGuid);
 
     expect(app.entity.name).toEqual('name-2401');
   });
 
   test('should obtain app summary', async () => {
     const client = new CloudFoundryClient(config);
-    const app = await client.applicationSummary('cd897c8c-3171-456d-b5d7-3c87feeabbd1');
-
-    expect(app.name).toEqual('name-79');
-  });
-
-  test('should obtain app summary', async () => {
-    const client = new CloudFoundryClient(config);
-    const app = await client.applicationSummary('cd897c8c-3171-456d-b5d7-3c87feeabbd1');
+    const app = await client.applicationSummary(data.appGuid);
 
     expect(app.name).toEqual('name-79');
   });

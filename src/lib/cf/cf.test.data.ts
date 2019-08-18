@@ -368,10 +368,11 @@ export const apps = `{
   ]
 }`;
 
+export const appGuid = "15b3885d-0351-4b9b-8697-86641668c123"
 export const app = `{
   "metadata": {
-    "guid": "15b3885d-0351-4b9b-8697-86641668c123",
-    "url": "/v2/apps/15b3885d-0351-4b9b-8697-86641668c123",
+    "guid": "${appGuid}",
+    "url": "/v2/apps/${appGuid}",
     "created_at": "2016-06-08T16:41:44Z",
     "updated_at": "2016-06-08T16:41:44Z"
   },
@@ -411,15 +412,15 @@ export const app = `{
     "ports": null,
     "space_url": "/v2/spaces/7846301e-c84c-4ba9-9c6a-2dfdae948d52",
     "stack_url": "/v2/stacks/bb9ca94f-b456-4ebd-ab09-eb7987cce728",
-    "routes_url": "/v2/apps/15b3885d-0351-4b9b-8697-86641668c123/routes",
-    "events_url": "/v2/apps/15b3885d-0351-4b9b-8697-86641668c123/events",
-    "service_bindings_url": "/v2/apps/15b3885d-0351-4b9b-8697-86641668c123/service_bindings",
-    "route_mappings_url": "/v2/apps/15b3885d-0351-4b9b-8697-86641668c123/route_mappings"
+    "routes_url": "/v2/apps/${appGuid}/routes",
+    "events_url": "/v2/apps/${appGuid}/events",
+    "service_bindings_url": "/v2/apps/${appGuid}/service_bindings",
+    "route_mappings_url": "/v2/apps/${appGuid}/route_mappings"
   }
 }`;
 
 export const appSummary = `{
-  "guid": "cd897c8c-3171-456d-b5d7-3c87feeabbd1",
+  "guid": "${appGuid}",
   "name": "name-79",
   "routes": [
     {
@@ -506,10 +507,11 @@ export const appSummary = `{
   "ports": null
 }`;
 
+export const dockerAppGuid = "646f636b-6572-0d0a-8697-86641668c123"
 export const dockerApp = `{
   "metadata": {
-    "guid": "646f636b-6572-0d0a-8697-86641668c123",
-    "url": "/v2/apps/15b3885d-0351-4b9b-8697-86641668c123",
+    "guid": "${dockerAppGuid}",
+    "url": "/v2/apps/${dockerAppGuid}",
     "created_at": "2016-06-08T16:41:44Z",
     "updated_at": "2016-06-08T16:41:44Z"
   },
@@ -549,15 +551,15 @@ export const dockerApp = `{
     "ports": null,
     "space_url": "/v2/spaces/7846301e-c84c-4ba9-9c6a-2dfdae948d52",
     "stack_url": "/v2/stacks/bb9ca94f-b456-4ebd-ab09-eb7987cce728",
-    "routes_url": "/v2/apps/15b3885d-0351-4b9b-8697-86641668c123/routes",
-    "events_url": "/v2/apps/15b3885d-0351-4b9b-8697-86641668c123/events",
-    "service_bindings_url": "/v2/apps/15b3885d-0351-4b9b-8697-86641668c123/service_bindings",
-    "route_mappings_url": "/v2/apps/15b3885d-0351-4b9b-8697-86641668c123/route_mappings"
+    "routes_url": "/v2/apps/${dockerAppGuid}/routes",
+    "events_url": "/v2/apps/${dockerAppGuid}/events",
+    "service_bindings_url": "/v2/apps/${dockerAppGuid}/service_bindings",
+    "route_mappings_url": "/v2/apps/${dockerAppGuid}/route_mappings"
   }
 }`;
 
 export const dockerAppSummary = `{
-  "guid": "646f636b-6572-0d0a-8697-86641668c123",
+  "guid": "${dockerAppGuid}",
   "name": "name-1337",
   "routes": [
     {
@@ -644,10 +646,11 @@ export const dockerAppSummary = `{
   "ports": null
 }`;
 
+export const cflinuxfs2AppGuid = "ebbcb962-8e5d-444d-a8fb-6f3b31fe99c7"
 export const appUsingCflinuxfs2 = `{
   "metadata": {
-    "guid": "ebbcb962-8e5d-444d-a8fb-6f3b31fe99c7",
-    "url": "/v2/apps/ebbcb962-8e5d-444d-a8fb-6f3b31fe99c7",
+    "guid": "${cflinuxfs2AppGuid}",
+    "url": "/v2/apps/${cflinuxfs2AppGuid}",
     "created_at": "2016-06-08T16:41:44Z",
     "updated_at": "2016-06-08T16:41:44Z"
   },
@@ -687,15 +690,15 @@ export const appUsingCflinuxfs2 = `{
     "ports": null,
     "space_url": "/v2/spaces/7846301e-c84c-4ba9-9c6a-2dfdae948d52",
     "stack_url": "/v2/stacks/dd63d39a-85f8-48ef-bb73-89097192cfcb",
-    "routes_url": "/v2/apps/15b3885d-0351-4b9b-8697-86641668c123/routes",
-    "events_url": "/v2/apps/15b3885d-0351-4b9b-8697-86641668c123/events",
-    "service_bindings_url": "/v2/apps/15b3885d-0351-4b9b-8697-86641668c123/service_bindings",
-    "route_mappings_url": "/v2/apps/15b3885d-0351-4b9b-8697-86641668c123/route_mappings"
+    "routes_url": "/v2/apps/${cflinuxfs2AppGuid}/routes",
+    "events_url": "/v2/apps/${cflinuxfs2AppGuid}/events",
+    "service_bindings_url": "/v2/apps/${cflinuxfs2AppGuid}/service_bindings",
+    "route_mappings_url": "/v2/apps/${cflinuxfs2AppGuid}/route_mappings"
   }
 }`;
 
 export const appSummaryUsingCflinuxfs2 = `{
-  "guid": "ebbcb962-8e5d-444d-a8fb-6f3b31fe99c7",
+  "guid": "${cflinuxfs2AppGuid}",
   "name": "name-79",
   "routes": [
     {
