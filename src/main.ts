@@ -1,3 +1,10 @@
+if (process.env['HONEYCOMB_WRITE_KEY']) {
+  require('honeycomb-beeline')({
+    writeKey: process.env['HONEYCOMB_WRITE_KEY'],
+    dataset: 'paas-admin',
+  });
+}
+
 import pino from 'pino';
 import sourceMapSupport from 'source-map-support';
 
