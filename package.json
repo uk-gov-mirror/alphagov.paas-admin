@@ -13,6 +13,7 @@
     "test:audit": "npm audit",
     "test:vulnerabilities": "if npm audit | grep -E -B9999 '\\d+\\s+(high|critical)'; then npm audit; else exit 0; fi",
     "test:acceptance": "ts-mocha --exit acceptance-tests/**/*.test.ts",
+    "test:owasp": "jest tests/owasp",
     "lint": "npm run -s lint:ts && npm run -s lint:sass",
     "lint:sass": "sass-lint -v",
     "lint:ts": "eslint --quiet --format codeframe --ext .js,.jsx,.ts,.tsx .",
@@ -190,7 +191,8 @@
       }
     },
     "testMatch": [
-      "<rootDir>/src/**/*.test.+(ts|tsx|js|jsx)"
+      "<rootDir>/src/**/*.test.+(ts|tsx|js|jsx)",
+      "<rootDir>/tests/owasp/**/*.test.+(ts|tsx|js|jsx)"
     ],
     "setupFilesAfterEnv": [
       "<rootDir>/config/jest/enzyme.config.js"
