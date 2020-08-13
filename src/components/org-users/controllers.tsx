@@ -752,13 +752,12 @@ export async function editUser(
     throw new NotFoundError('not found');
   }
 
-  const [organization, spaces, orgUsers] = await Promise.all([
+  const [organization, spaces] = await Promise.all([
     cf.organization(params.organizationGUID),
     cf.orgSpaces(params.organizationGUID),
-    cf.usersForOrganization(params.organizationGUID),
   ]);
 
-  const user = orgUsers.find(
+  const user = users.find(
     (u: IOrganizationUserRoles) => u.metadata.guid === params.userGUID,
   );
 
