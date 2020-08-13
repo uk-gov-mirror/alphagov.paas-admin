@@ -774,7 +774,6 @@ export async function editUser(
       `user ${uaaUser.id} was found in UAA and CF, but not in paas-accounts. ` +
         'Was the user created incorrectly? They should be invited via paas-admin',
     );
-    throw new NotFoundError('user not found in paas-accounts');
   }
 
   /* istanbul ignore next */
@@ -841,7 +840,7 @@ export async function editUser(
       <EditPage
         billingManagers={billingManagers.length}
         csrf={ctx.viewContext.csrf}
-        email={accountsUser.email}
+        email={accountsUser?.email || user.entity.username}
         errors={[]}
         isActive={uaaUser.active && uaaUser.verified}
         linkTo={ctx.linkTo}
