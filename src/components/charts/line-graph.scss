@@ -48,3 +48,17 @@ svg.govuk-paas-line-graph {
     shape-rendering: crispEdges;
   }
 }
+//animation
+.govuk-paas-line-graph--animated .series {
+  stroke-dasharray: 3200; // will need to be calculated for each
+  stroke-dashoffset: 3200; // will need to be calculated for each
+  animation: draw 3s ease-in forwards;
+  animation-iteration-count: 1;
+  animation-delay: 1s;
+}
+
+@keyframes draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
