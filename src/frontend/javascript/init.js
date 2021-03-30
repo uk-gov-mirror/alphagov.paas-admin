@@ -57,3 +57,24 @@ if ($tooltips) {
     new Tooltip($tooltips[i]).init();
   };
 }
+
+
+if ('IntersectionObserver' in window ) {
+  // browsers that support IntersectionObserver will support matchMedia
+  // if no 'reduce' motion is set then continue
+  if (window.matchMedia('(prefers-reduced-motion: no-preference)')) {
+    const graphs = document.querySelectorAll('.govuk-paas-line-graph');
+
+    let observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.intersectionRatio > 0) {
+          entry.target.classList.add('govuk-paas-line-graph--animated');
+        }
+      });
+    });
+
+    graphs.forEach(graph => {
+      observer.observe(graph);
+    });
+  }
+}
